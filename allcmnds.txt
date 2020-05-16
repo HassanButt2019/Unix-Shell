@@ -1,3 +1,4 @@
 Total Commands :
 chngclur : change the colour of the text and background of the terminal
 hay: which scrapes the songs from website
+pwd : display the currunt directory
