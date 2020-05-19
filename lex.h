@@ -8,6 +8,21 @@
 #include <signal.h>
 /* lex.h : simple lexical analyzer for the UNIX-SHELL */
 
+/* Global Variable */
+char host[1000];
+char user[1000];
+char homedir[1010]="/home/";
+char line[1000006];
+char execpath[1000];
+char execdir[1000];
+
+int INFILE = 0;
+int OUTFILE = 1;
+int JOBCTR = 1;
+int PIPEIN = 0;
+pid_t SHELLPID;
+
+
 //used to tokenize the input lines into commands
 
 void parse( char *line , char **tokens , char* delim)
