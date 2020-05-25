@@ -40,9 +40,9 @@ void parse( char *line , char **tokens , char* delim)
 int spaceCheck()
 {
 	int i =0;
-	while(line[i] != "\0")
+	while(line[i] != '\0')
 	{
-		if(line[i] != " " && line[i] != "\t")
+		if(line[i] != ' ' && line[i] != '\t')
 			return 0;
 		i++;
 	}

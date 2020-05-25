@@ -73,37 +73,6 @@ void sig_handler(int sig)
         }
     }
 }
-void invokeShell()
-{
-	char home[1000];
-	getcwd(home , 1000);
-	int flag = 0;
-	char changehome[1000]="~";
-	int i;
-	if(strlen(execdir) <= strlen(home))
-	{
-		for(i =0 ; execdir[i] != '\0' ; i++)
-		{
-			if(execdir[i] != home[i])
-			{
-				flag = 1;
-				break;
-			}
-		}
-	}else
-		flag = 1;
-	if(flag = 0)
-	{
-		int j , k;
-		for(j = i , k =1 ; home[j] != "\0" ; j++,k++)
-		{
-			changehome[k] = home[j];
-		}
-		printf("%s@%s:%s>",user,host,changehome);
-	
-	}else
-	printf("%s@%s:%s>",user,host,home);
-}
 //void executeFG(char **tokens);
 
 //void executeOVERKILL()
@@ -153,13 +122,13 @@ void func_CD(char **tokens)
 	int len = strlen(execdir);
 	if (tokens[1] == NULL)
 		chdir(execdir);
-	else if(tokens[1][0] == "~")
+	else if(tokens[1][0] == '~')
 	{
-		for (i = 1 ; tokens[1][i] != "\0" ; i++)
+		for (i = 1 ; tokens[1][i] != '\0' ; i++)
 		{
 			home[i+len-1] = tokens[1][i];
 		}
-		home[i+len-1] = "\0";
+		home[i+len-1] = '\0';
 		if(chdir(home) != 0)
 		{
 			perror("Error");
@@ -182,7 +151,7 @@ void func_ECHO(char **tokens)
 	while(tokens[i] != NULL)
 	{
 		int k ;
-		for(k=0 ; tokens[i][k] != "\0" ; k++)
+		for(k=0 ; tokens[i][k] != '\0' ; k++)
 		{
 			if(flag1 == 1)
 			{

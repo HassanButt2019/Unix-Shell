@@ -12,6 +12,38 @@ void backto()
 	int r;
 	r = system("backtonormal");
 }
+void invokeShell()
+{
+        char home[1000];
+        getcwd(home , 1000);
+        int flag = 0;
+        char changehome[1000]="~";
+        int i;
+        if(strlen(execdir) <= strlen(home))
+        {
+                for(i =0 ; execdir[i] != '\0' ; i++)
+                {
+                        if(execdir[i] != home[i])
+                        {
+                                flag = 1;
+                                break;
+                        }
+                }
+        }else
+                flag = 1;
+        if(flag = 0)
+        {
+                int j , k;
+                for(j = i , k =1 ; home[j] != '\0' ; j++,k++)
+                {
+                        changehome[k] = home[j];
+                }
+                printf("%s@%s:%s>",user,host,changehome);
+
+        }else
+        printf("%s@%s:%s>",user,host,home);
+}
+
 //Executes all the commands in a single line
 void executeCommand()
 {
@@ -163,7 +195,7 @@ int main(int argc , char *argv[])
 				continue;
 		}else
 		{
-			putchar("\n");
+			putchar('\n');
 			continue;
 		}
 		executeCommand();
