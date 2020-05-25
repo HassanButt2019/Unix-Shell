@@ -133,7 +133,7 @@ void func_CD(char **tokens)
 		{
 			perror("Error");
 		} 
-	}else if(chdir(tokens[1] != 0)) 
+	}else if(chdir(tokens[1]) != 0) 
 	{
 		perror("Error");
 	}
