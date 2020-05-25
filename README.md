@@ -13,4 +13,33 @@ The subsystems that complete your shell are:
 * Subshells
 ## Using Lex and Yacc to implement the Parser
 A parser is divided into two parts: laxical Analyzer which takes the input characters and puts the characters together into words called tokes and a Parser which takes the processes of the tokens according to grammar and build the command table.
- 
+## The ( lex.h ) contains the implementation of the Lexical Analyzer
+The lexical analyzer separates input into tokens.It will read the characters one by one from the standard input and form a token that will be passed to the parser.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   

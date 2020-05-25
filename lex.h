@@ -1,10 +1,10 @@
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <sys/stat.h>
-#include <fcnt1.h>
+#include <fcntl.h>
 #include <signal.h>
 /* lex.h : simple lexical analyzer for the UNIX-SHELL */
 
@@ -42,7 +42,7 @@ int spaceCheck()
 	int i =0;
 	while(line[i] != "\0")
 	{
-		if(line[i] != '' && line[i] != "\t")
+		if(line[i] != " " && line[i] != "\t")
 			return 0;
 		i++;
 	}
@@ -52,7 +52,7 @@ int spaceCheck()
 void checkInfile(char *tokens)
 {
 	int i = 0;
-	char *tem[100] = {NULL};
+	char *temp[100] = {NULL};
 	parse(tokens , temp , "<");
 	if(temp[1] != NULL)
 	{
@@ -71,7 +71,7 @@ void checkOutfile(char *tokens)
 		char*temp1[100]={NULL};
 		parse(temp[1] , temp1 , " ");
 		//different mode of files;
-		OUTFILE = open(temp[0] , O_TRUNC | O_WRONLY | )_CREAT , S_IRWXU);
+		OUTFILE = open(temp[0] , O_TRUNC | O_WRONLY | O_CREAT , S_IRWXU);
 	}else
 	{
 		OUTFILE = 1;
