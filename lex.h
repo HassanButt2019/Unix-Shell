@@ -49,7 +49,7 @@ int spaceCheck()
 	return 1;
 }
 
-void checkInfile(char *tokens)
+void checkInfile(char *tokens)// use to open the file
 {
 	int i = 0;
 	char *temp[100] = {NULL};
@@ -61,7 +61,7 @@ void checkInfile(char *tokens)
 		INFILE = open(temp1[0] ,  O_RDONLY); //It creates an open file description that refers to a file and a file descriptor that refers to that open file description
 	}
 }
-void checkOutfile(char *tokens)
+void checkOutfile(char *tokens) // use to move the data from one file into another
 {
 	int i = 0 ;
 	char *temp[100] = {NULL};

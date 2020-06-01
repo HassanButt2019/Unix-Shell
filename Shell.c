@@ -1,25 +1,24 @@
-//#include "lex.h"
 #include <stdio.h>
 #include "command.h"
 
-void changebackground()
+void changebackground() //change background into gray colour
 {
 	int r;
 	r = system("chngclur");
 }
-void backto()
+void backto() //change background into white colour
 {
 	int r;
 	r = system("backtonormal");
 }
-void invokeShell()
+void invokeShell() // it will use to invoke the shell
 {
         char home[1000];
-        getcwd(home , 1000);
+        getcwd(home , 1000); //it takes the  current directory
         int flag = 0;
         char changehome[1000]="~";
         int i;
-        if(strlen(execdir) <= strlen(home))
+        if(strlen(execdir) <= strlen(home)) 
         {
                 for(i =0 ; execdir[i] != '\0' ; i++)
                 {
@@ -31,7 +30,7 @@ void invokeShell()
                 }
         }else
                 flag = 1;
-        if(flag = 0)
+        if(flag == 0)
         {
                 int j , k;
                 for(j = i , k =1 ; home[j] != '\0' ; j++,k++)
@@ -39,10 +38,9 @@ void invokeShell()
                         changehome[k] = home[j];
                 }
                 printf("%s@%s:%s>",user,host,changehome);
-
         }else
         printf("%s@%s:%s>",user,host,home);
-}
+} //prints the current directory
 
 //Executes all the commands in a single line
 void executeCommand()
@@ -56,7 +54,7 @@ void executeCommand()
     while(temppipe[j]!=NULL)
     {
 
-        parse( temppipe[j] , temp , "|" );
+        parse( temppipe[j] , temp , "|" );//parsing pipes
         int i = 0;
         int fd[2];
         while( temp[i] != NULL )
@@ -65,9 +63,8 @@ void executeCommand()
             char *temp1[100]={NULL};
             char *temp2[100]={NULL};
 
-            checkOutfile(temp[i]);
-            checkInfile(temp[i]);
-
+            checkOutfile(temp[i]);//file open for output
+            checkInfile(temp[i]); //file open for input
 
             // Seperating commands and various arguments
             parse( temp[i] , temp1 , "<" );
@@ -78,7 +75,8 @@ void executeCommand()
                 return;
 
             int bg = backgroundCheck(tokens);
-            signal(SIGCHLD,sig_handler);
+            signal(SIGCHLD,sig_handler);/*A trap signal that indicates a process started by the current process has terminated.
+This is how the shell knows to wait for a command to terminate before prompting for another command*/
 
             // Checking if command is builtin or not
             if ( strcmp(tokens[0],"quit") == 0)
@@ -103,14 +101,14 @@ void executeCommand()
                 executeFG(tokens); */
             else
             {
-                pipe(fd);
+                pipe(fd);//fd[0] will be the fd(file descriptor) for the 
+//read end of pipe. //combines two command
 
-                if(bg)
-                    strcpy(job[JOBCTR].name,tokens[0]);
+                if( bg )//checks the command running in background or no
+                    strcpy(job[JOBCTR].name,tokens[0]);//copies the current background job if not running
 
                 pid_t  pid;
                 int flag;
-
                 pid = fork();
                 if( pid < 0 )
                 {
@@ -118,15 +116,14 @@ void executeCommand()
                 }
                 else if(pid  == 0 )
                 {
-
                     if(INFILE != 0)
                     {
-                        dup2(INFILE,STDIN_FILENO);
-                        close(INFILE);
+                        dup2(INFILE,STDIN_FILENO); //makes the duplicates of on file descriptor , making them alies and  then delete the old file descriptor
+                        close(INFILE);//stdin_fileno  it he standard input file descriptor
                     }
                     if(OUTFILE != 1)
                     {
-                        dup2(OUTFILE,STDOUT_FILENO);
+                        dup2(OUTFILE,STDOUT_FILENO); //stdout_fileno is the standard output file 
                         close(OUTFILE);
                     }
                     if(temp[i+1]!=NULL) 
@@ -136,7 +133,7 @@ void executeCommand()
                     }
 
                     // executing command
-                    if(execvp(*tokens,tokens) < 0)
+                    if(execvp(*tokens,tokens) < 0) // execvp is use to execute any process file 
                     {
                         perror("Error ");
                         exit(0);
@@ -146,14 +143,14 @@ void executeCommand()
                 {
                     //Waiting for child process to end
                     if(!bg)
-                        wait(&flag);
+                        wait(&flag);//if job is runing than wait 
                     else
                     {
-                        job[JOBCTR++].pid = pid;
+                        job[JOBCTR++].pid = pid;//current job pid
                         printf("Process started: %s [%d]\n",tokens[0],pid);
                     }
-                    INFILE=fd[0];
-                    close(fd[1]);
+                    INFILE=fd[0]; // more than one readers can enter into a single file
+                    close(fd[1]);//but not more than one writer can enter into a single file
                 }
             }
             i++;
@@ -169,10 +166,10 @@ void executeCommand()
 int main(int argc , char *argv[])
 {
 	changebackground();
-	SHELLPID = getpid();
+	SHELLPID = getpid();//get the pid
 	gethostname(host , 1000);
 	getlogin_r(user , 1000);
-	getcwd(execdir , 1000);
+	getcwd(execdir , 1000); //takes the current directory
 	
 	while(1)
 	{
@@ -180,14 +177,14 @@ int main(int argc , char *argv[])
 		signal(SIGINT , SIG_IGN);
 		signal(SIGQUIT , SIG_IGN);
 		signal(SIGTSTP , SIG_IGN);
-		if(signal(SIGINT , sig_handler) == 0)
+/* ctrl + c */		if(signal(SIGINT , sig_handler) == 0)//terminate the process
 			continue;
-		if(signal(SIGQUIT , sig_handler) == 0)
+/* ctrl + / */		if(signal(SIGQUIT , sig_handler) == 0)//terminate the process
 			continue;
-		if(signal(SIGTSTP , sig_handler) == 0)
+/* ctrl + z */		if(signal(SIGTSTP , sig_handler) == 0)//can continue the process
 			continue;
-		invokeShell();
-		
+		invokeShell();//invoking the shell
+
 		if(scanf("%[^\n]s",line) != EOF)
 		{
 			getchar();

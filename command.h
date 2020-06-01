@@ -53,22 +53,22 @@ void sig_handler(int sig)
         invokeShell();
         fflush(stdout);
     }
-    if(sig == SIGCHLD)
+    if(sig == SIGCHLD)//check the status of the child process
     {
  	int  wstat;
         pid_t pid;
 
         while(1)
         {
-            pid = wait3(&wstat,WNOHANG,(struct rusage *)NULL);
-            if(pid == 0 )
+            pid = wait3(&wstat,WNOHANG,(struct rusage *)NULL) ;//wait for the child process signal 
+            if(pid == 0 )//means child is not finished
                 return;
-            else if(pid == -1)
+            else if(pid == -1)//means not executed
                 return;
             else
             {
-                fprintf(stderr,"\nProcess with PID : %d exited with return value: %d\n",pid,wstat);
-                deleteJob(pid);
+                fprintf(stderr,"\nProcess with PID : %d exited with return value: %d\n",pid,wstat); // child process is terminated
+                deleteJob(pid);//delete the job 
             }
         }
     }
@@ -109,7 +109,7 @@ int backgroundCheck(char **tokens)
 void func_PWD()
 {
 	char home[1000];
-	getcwd(home,1000);
+	getcwd(home,1000);//gets the current directory
 	printf("%s\n",home);
 }
 // builtin cd command
@@ -135,7 +135,7 @@ void func_CD(char **tokens)
 		} 
 	}else if(chdir(tokens[1]) != 0) 
 	{
-		perror("Error");
+		perror("Error"); // print the error
 	}
 }
 // Making built in echo command
