@@ -186,3 +186,64 @@ void func_ECHO(char **tokens)
 	else
 		printf("Error: Wrong Input\n");
 }
+
+void func_pinfo(char **tokens)
+{
+	char status[1000] = "cat /proc/";
+	int j  = strlen(status);
+
+	//check if pid is given or not
+	if (tokens[1] == NULL)
+	{
+		char buff[1000] = "";
+		ssize_t len = readlink("/proc/self/exe/",buff,sizeof(buff)-1);
+		printf("Executable Path -- %s\n",buff);
+		char a[20] ="self/status";
+		int i;
+		for(i = 0 ; a[i] != '\0' ; i++)
+			status[j++] = a[i];
+	}else
+	{
+		int i ;
+		char b[10] = "/status";
+		char a[1000] = "/proc/";
+		char c[10] = "/exe";
+		int k = 6;
+		for(i =0 ; tokens[1][i] != '\0' ; i++)
+			a[k++] = tokens[1][i];
+		for(i =0 ; c[i] != '0' ; i++)
+
+			a[k++] = c[i];
+		char buff[1000] = "";
+		ssize_t len = readlink("/proc/self/exe" , a ,sizeof(buff)-1);
+		printf("Executable Path -- %s\n",buff);
+	  for( i=0 ; tokens[1][i]!='\0' ; i++ )
+            status[j++] = tokens[1][i];
+        for( i=0 ; b[i]!='\0' ; i++ )
+            status[j++] = b[i];
+	}
+	//seperating commands and arguement
+
+		char *final[1000] = {NULL};
+		parse(status,final," ");
+	
+	pid_t pid;
+		int flag;
+		  pid = fork();
+    if( pid < 0 )
+    {
+        perror("Forking Error ");
+    }
+    else if(pid  == 0 )
+    {
+        if( execvp(*final , final) < 0)
+        {
+            perror("Error ");
+            exit(0);
+        }
+    }
+    else
+    {
+        wait(&flag);
+    }
+}

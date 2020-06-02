@@ -89,9 +89,9 @@ This is how the shell knows to wait for a command to terminate before prompting 
                 func_PWD();
             else if ( strcmp(tokens[0],"echo") == 0)
                 func_ECHO(tokens);
-/*            else if ( strcmp(tokens[0],"pinfo") == 0)
-                executePINFO(tokens);
-            else if ( strcmp(tokens[0],"jobs") == 0)
+            else if ( strcmp(tokens[0],"pinfo") == 0)
+                func_pinfo(tokens);
+/*            else if ( strcmp(tokens[0],"jobs") == 0)
                 executeJOBS();
             else if ( strcmp(tokens[0],"kjob") == 0)
                 executeKJOB(tokens);
