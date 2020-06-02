@@ -1,0 +1,5 @@
+cd ~/Desktop/Unix-Shell/Unix-Shell/Unix-Shell/songs
+python3 python.py
+echo "Done With Your Songs .... Following Are Your Songs"
+ls *.txt
+echo "Done.."

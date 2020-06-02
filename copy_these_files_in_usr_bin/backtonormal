@@ -1,0 +1,5 @@
+clear
+echo "Your Colour Is Changing"
+echo -ne '\e]10;#000\e\\'
+echo -ne '\e]11;#fff\e\\'
+clear
